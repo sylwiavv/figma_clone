@@ -1,11 +1,13 @@
 "use client";
 
-import {useOthers} from "@liveblocks/react/suspense";
 import {LiveCursors} from "@/app/components/cursror/LiveCursors";
-import {useMyPresence} from "@/app/liveblocks.config";
 import React, {useCallback, useEffect, useState} from "react";
 import {CursorChat} from "@/app/components/cursror/CursorChat";
 import {CursorMode} from "@/types/type";
+import {
+    useMyPresence,
+    useOthers,
+} from "@liveblocks/react";
 
 export const Live = () => {
     const others = useOthers();
@@ -29,7 +31,7 @@ export const Live = () => {
         // event.preventDefault()
         setCursorState({mode: CursorMode.Hidden})
 
-        updateMyPresence({cursor: null, message: null})
+        updateMyPresence({cursor: null, message: "HELLO"})
     }, [])
 
     // handlePointerDown --------------------------------------------------------
@@ -54,7 +56,7 @@ export const Live = () => {
                 e.key === "Escape"
             ) {
                 setCursorState({mode: CursorMode.Hidden})
-                updateMyPresence({message: ""})
+                updateMyPresence({message: "BLLLO"})
             }
         }
 
@@ -80,11 +82,13 @@ export const Live = () => {
              className="border-2 border-green-500 h-[100vh] w-full flex justify-center items-center text-center">
             <h1 className="text-2xl text-white">Liveblock fimga clone</h1>
 
-            {cursor && <CursorChat cursor={cursor} cursorState={cursorState} setCursorState={setCursorState}
-                                   updateMyPresence={updateMyPresence}/>}
+            {cursor && (<CursorChat cursor={cursor}
+                                    cursorState={cursorState}
+                                    setCursorState={setCursorState}
+                                    updateMyPresence={updateMyPresence}/>
+            )}
 
             <LiveCursors others={others}/>
-
         </div>
     );
 }

@@ -4,16 +4,15 @@ import React from "react";
 
 export const CursorChat = ({cursor, cursorState, setCursorState, updateMyPresence}: CursorChatProps) => {
     const handleChane = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const message = e.target.value
-        updateMyPresence({message})
-        setCursorState({mode: CursorMode.Chat, previousMessage: null, message})
+        updateMyPresence({message: e.target.value})
+        setCursorState({mode: CursorMode.Chat, previousMessage: null, message: e.target.value})
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             setCursorState({
                 mode: CursorMode.Chat,
-                previousMessage: cursorState.message,
+                previousMessage: cursorState?.message,
                 message: ""
             })
         } else if (
