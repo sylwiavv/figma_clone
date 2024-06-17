@@ -31,7 +31,7 @@ export const Live = () => {
         // event.preventDefault()
         setCursorState({mode: CursorMode.Hidden})
 
-        updateMyPresence({cursor: null, message: "HELLO"})
+        updateMyPresence({cursor: null, message: null})
     }, [])
 
     // handlePointerDown --------------------------------------------------------
@@ -56,7 +56,7 @@ export const Live = () => {
                 e.key === "Escape"
             ) {
                 setCursorState({mode: CursorMode.Hidden})
-                updateMyPresence({message: "BLLLO"})
+                updateMyPresence({message: ""})
             }
         }
 
