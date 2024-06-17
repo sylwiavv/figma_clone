@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
 import "./globals.css";
 import { Room } from "./Room";
+import React from "react";
 
 const workSans = Work_Sans({ subsets: ["latin"], variable: "--work-sans" });
 
