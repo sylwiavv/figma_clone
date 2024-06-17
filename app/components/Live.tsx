@@ -41,7 +41,7 @@ export const Live = () => {
              onPointerDown={handlePointerDown}
              onPointerLeave={handlePointerLeave}
              className="border-2 border-green-500 h-[100vh] w-full flex justify-center items-center text-center">
-            <h1 className="text-5xl text-white">Liveblock fimga clone dd</h1>
+            <h1 className="text-2xl text-white">Liveblock fimga clone</h1>
 
             <LiveCursors others={others} />
 
