@@ -24,7 +24,7 @@ export const Live = () => {
 
         updateMyPresence({cursor: {x, y}})
 
-    }, [])
+    }, [updateMyPresence])
 
     // handlePointerLeave --------------------------------------------------------
     const handlePointerLeave = useCallback((event: React.PointerEvent) => {
@@ -32,7 +32,7 @@ export const Live = () => {
         setCursorState({mode: CursorMode.Hidden})
 
         updateMyPresence({cursor: null, message: null})
-    }, [])
+    }, [updateMyPresence])
 
     // handlePointerDown --------------------------------------------------------
     const handlePointerDown = useCallback((event: React.PointerEvent) => {
@@ -42,7 +42,7 @@ export const Live = () => {
         const y = event.clientY - event.currentTarget.getBoundingClientRect().y
 
         updateMyPresence({cursor: {x, y}})
-    }, [])
+    }, [updateMyPresence])
 
     useEffect(() => {
         const onKeyUp = (e: React.KeyboardEvent) => {
