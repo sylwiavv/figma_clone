@@ -8,7 +8,7 @@ const workSans = Work_Sans({ subsets: ["latin"], variable: "--work-sans",   weig
 
 export const metadata: Metadata = {
   title: "Figma clone",
-  description: "A minimalist Figma clone using Fabris.js and Liveblocks for real-time collaboration.",
+  description: "A minimalist Figma clone using Fabris.js and Liveblocks for real-time collaboration",
 };
 
 export default function RootLayout({
