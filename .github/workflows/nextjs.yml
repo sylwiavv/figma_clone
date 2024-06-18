@@ -91,6 +91,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          env:
+        env:
             NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_API_KEY }}
