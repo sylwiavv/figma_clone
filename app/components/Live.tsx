@@ -3,11 +3,12 @@
 import {LiveCursors} from "@/app/components/cursror/LiveCursors";
 import React, {useCallback, useEffect, useState} from "react";
 import {CursorChat} from "@/app/components/cursror/CursorChat";
-import {CursorMode, CursorState, Reaction} from "@/types/type";
+import {CursorMode, CursorState, Reaction, ReactionEvent} from "@/types/type";
 import {useMyPresence, useOthers,} from "@liveblocks/react";
 import ReactionSelector from "@/app/components/reaction/ReactionSelector";
 import FlyingReaction from "@/app/components/reaction/FlyingReaction";
 import useInterval from "@/hooks/useInterval";
+import {useBroadcastEvent, useEventListener} from "@/liveblocks.config";
 
 export const Live = () => {
     const others = useOthers();
@@ -68,6 +69,9 @@ export const Live = () => {
         })
     }, [])
 
+    const broadcast = useBroadcastEvent()
+
+    // set reaction with emoji
     useInterval(() => {
         if(cursorState.mode === CursorMode.Reaction && cursorState.isPressed && cursor) {
             setReaction((reactions) => reactions.concat([
@@ -77,8 +81,33 @@ export const Live = () => {
                     timestamp: Date.now()
                 }
             ]))
+
+            broadcast({
+                x: cursor.x,
+                y: cursor.y,
+                value: cursorState.reaction
+            })
         }
     }, 100)
+
+    useInterval(() => {
+        setReaction((reaction) =>  reaction.filter((r ) => r.timestamp > Date.now() - 4000))
+    }, 1000)
+
+    console.log(reaction);
+
+    useEventListener((eventData) => {
+        const event = eventData.event as ReactionEvent
+
+        setReaction((reactions) => reactions.concat([
+            {
+                point: {x: event.x, y: event.y},
+                value: event.value,
+                timestamp: Date.now()
+            }
+        ]))
+    })
+
 
 
     useEffect(() => {
