@@ -92,4 +92,4 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         env:
-            NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_API_KEY }}
+          NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY: ${{ secrets.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY }}
