@@ -12,7 +12,7 @@ export const CursorChat = ({cursor, cursorState, setCursorState, updateMyPresenc
         if (e.key === "Enter") {
             setCursorState({
                 mode: CursorMode.Chat,
-                previousMessage: cursorState.message,
+                previousMessage: 'cursorState.message coś nie działa',
                 message: ""
             })
         } else if (
