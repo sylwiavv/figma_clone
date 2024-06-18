@@ -6,6 +6,8 @@ import {CursorChat} from "@/app/components/cursror/CursorChat";
 import {CursorMode, CursorState, Reaction} from "@/types/type";
 import {useMyPresence, useOthers,} from "@liveblocks/react";
 import ReactionSelector from "@/app/components/reaction/ReactionSelector";
+import FlyingReaction from "@/app/components/reaction/FlyingReaction";
+import useInterval from "@/hooks/useInterval";
 
 export const Live = () => {
     const others = useOthers();
@@ -61,10 +63,22 @@ export const Live = () => {
 
 
     const setReactions = useCallback((reaction: string) => {
-            setCursorState({
-                mode: CursorMode.Reaction, reaction, isPressed: false
-            })
-        }, [])
+        setCursorState({
+            mode: CursorMode.Reaction, reaction, isPressed: false
+        })
+    }, [])
+
+    useInterval(() => {
+        if(cursorState.mode === CursorMode.Reaction && cursorState.isPressed && cursor) {
+            setReaction((reactions) => reactions.concat([
+                {
+                    point: {x: cursor.x, y: cursor.y},
+                    value: cursorState.reaction,
+                    timestamp: Date.now()
+                }
+            ]))
+        }
+    }, 100)
 
 
     useEffect(() => {
@@ -108,6 +122,14 @@ export const Live = () => {
              className="border-2 border-green-500 h-[100vh] w-full flex justify-center items-center text-center">
             <h1 className="text-2xl text-white">Liveblock fimga clone</h1>
 
+            {reaction.map((r) =>
+                <FlyingReaction key={r.timestamp.toString()}
+                                x={r.point.x}
+                                y={r.point.y}
+                                timestamp={r.timestamp}
+                                value={r.value}/>
+            )}
+
             {cursor && (<CursorChat cursor={cursor}
                                     cursorState={cursorState}
                                     setCursorState={setCursorState}
@@ -115,7 +137,7 @@ export const Live = () => {
             )}
 
             {cursorState.mode === CursorMode.ReactionSelector && (
-                <ReactionSelector setReaction={setReactions} />
+                <ReactionSelector setReaction={setReactions}/>
             )}
 
             <LiveCursors others={others}/>
