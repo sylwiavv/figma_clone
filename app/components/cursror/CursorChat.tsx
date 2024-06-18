@@ -3,7 +3,7 @@ import CursorSVG from "@/public/assets/CursorSVG";
 import React from "react";
 
 export const CursorChat = ({cursor, cursorState, setCursorState, updateMyPresence}: CursorChatProps) => {
-    const handleChane = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         updateMyPresence({message: e.target.value})
         setCursorState({mode: CursorMode.Chat, previousMessage: null, message: e.target.value})
     }
@@ -12,7 +12,7 @@ export const CursorChat = ({cursor, cursorState, setCursorState, updateMyPresenc
         if (e.key === "Enter") {
             setCursorState({
                 mode: CursorMode.Chat,
-                previousMessage: cursorState?.message,
+                previousMessage: "",
                 message: ""
             })
         } else if (
@@ -38,7 +38,7 @@ export const CursorChat = ({cursor, cursorState, setCursorState, updateMyPresenc
                         <input
                             className="z-10 w-60 border-none bg-transparent text-white placeholder-blue-300 outline-none"
                             autoFocus={true}
-                            onChange={handleChane}
+                            onChange={handleChange}
                             onKeyDown={handleKeyDown}
                             placeholder={cursorState.previousMessage ? "" : "Type a message..."}
                             value={cursorState.message}

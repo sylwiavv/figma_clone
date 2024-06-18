@@ -11,7 +11,7 @@ export function Room({ children }: { children: ReactNode }) {
     const publicApiKey = process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY;
 
     return (
-        <LiveblocksProvider publicApiKey={publicApiKey}>
+        <LiveblocksProvider publicApiKey={publicApiKey as string}>
             <RoomProvider id="my-room" initialPresence={{}}>
                 <ClientSideSuspense fallback={<div className="text-white">Loading…</div>}>
                     {children}

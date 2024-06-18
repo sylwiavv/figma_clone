@@ -1,49 +1,62 @@
-// Define Liveblocks types for your application
-// https://liveblocks.io/docs/api-reference/liveblocks-react#Typing-your-data
-declare global {
-  interface Liveblocks {
-    // Each user's Presence, for useMyPresence, useOthers, etc.
-    Presence: {
-      // Example, real-time cursor coordinates
-      // cursor: { x: number; y: number };
-    };
+import { createClient } from "@liveblocks/client";
+import { createRoomContext } from "@liveblocks/react";
 
-    // The Storage tree for the room, for useMutation, useStorage, etc.
-    Storage: {
-      // Example, a conflict-free list
-      // animals: LiveList<string>;
-    };
+const client = createClient({
+  throttle: 100,
+  publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!,
+});
 
-    // Custom user info set when authenticating with a secret key
-    UserMeta: {
-      id: string;
-      info: {
-        // Example properties, for useSelf, useUser, useOthers, etc.
-        // name: string;
-        // avatar: string;
-      };
-    };
+// Presence represents the properties that will exist on every User in the Room
+// and that will automatically be kept in sync. Accessible through the
+// `user.presence` property. Must be JSON-serializable.
+type Presence = {
+  // cursor: { x: number, y: number } | null,
+  // ...
+};
 
-    // Custom events, for useBroadcastEvent, useEventListener
-    RoomEvent: {};
-      // Example has two events, using a union
-      // | { type: "PLAY" } 
-      // | { type: "REACTION"; emoji: "🔥" };
+// Optionally, Storage represents the shared document that persists in the
+// Room, even after all Users leave. Fields under Storage typically are
+// LiveList, LiveMap, LiveObject instances, for which updates are
+// automatically persisted and synced to all connected clients.
+type Storage = {
+  // author: LiveObject<{ firstName: string, lastName: string }>,
+  // ...
+};
 
-    // Custom metadata set on threads, for useThreads, useCreateThread, etc.
-    ThreadMetadata: {
-      // Example, attaching coordinates to a thread
-      // x: number;
-      // y: number;
-    };
+// Optionally, UserMeta represents static/readonly metadata on each User, as
+// provided by your own custom auth backend (if used). Useful for data that
+// will not change during a session, like a User's name or avatar.
+// type UserMeta = {
+//   id?: string,  // Accessible through `user.id`
+//   info?: Json,  // Accessible through `user.info`
+// };
 
-    // Custom room info set with resolveRoomsInfo, for useRoomInfo
-    RoomInfo: {
-      // Example, rooms with a title and url
-      // title: string;
-      // url: string;
-    };
-  }
-}
+// Optionally, the type of custom events broadcast and listened to in this
+// room. Must be JSON-serializable.
+// type RoomEvent = {};
 
-export {};
+export const {
+  suspense: {
+    RoomProvider,
+    useRoom,
+    useMyPresence,
+    useUpdateMyPresence,
+    useSelf,
+    useOthers,
+    useOthersMapped,
+    useOthersConnectionIds,
+    useOther,
+    useThreads,
+    useBroadcastEvent,
+    useEventListener,
+    useErrorListener,
+    useStorage,
+    useBatch,
+    useHistory,
+    useUndo,
+    useRedo,
+    useCanUndo,
+    useCanRedo,
+    useMutation,
+  },
+} = createRoomContext<Presence, Storage /* UserMeta, RoomEvent */>(client)

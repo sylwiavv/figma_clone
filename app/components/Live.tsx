@@ -3,7 +3,7 @@
 import {LiveCursors} from "@/app/components/cursror/LiveCursors";
 import React, {useCallback, useEffect, useState} from "react";
 import {CursorChat} from "@/app/components/cursror/CursorChat";
-import {CursorMode} from "@/types/type";
+import {CursorMode, CursorState} from "@/types/type";
 import {
     useMyPresence,
     useOthers,
@@ -13,7 +13,7 @@ export const Live = () => {
     const others = useOthers();
     const [{cursor}, updateMyPresence] = useMyPresence() as any
 
-    const [cursorState, setCursorState] = useState({mode: CursorMode.Hidden})
+    const [cursorState, setCursorState] = useState<CursorState>({mode: CursorMode.Hidden})
 
     // handlePointerMove --------------------------------------------------------
     const handlePointerMove = useCallback((event: React.PointerEvent) => {
@@ -45,7 +45,7 @@ export const Live = () => {
     }, [updateMyPresence])
 
     useEffect(() => {
-        const onKeyUp = (e: React.KeyboardEvent) => {
+        const onKeyUp = (e: KeyboardEvent) => {
             if (e.key === "/") {
                 setCursorState({
                     mode: CursorMode.Chat,
@@ -60,7 +60,7 @@ export const Live = () => {
             }
         }
 
-        const onKeyDown = (e: React.KeyboardEvent) => {
+        const onKeyDown = (e: KeyboardEvent) => {
             if (e.key === "/") {
                 e.preventDefault()
             }
