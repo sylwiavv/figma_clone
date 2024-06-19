@@ -2,6 +2,11 @@
 const nextConfig = {
     images: {
         unoptimized: true,
+        remotePatterns: [{
+            protocol: "https",
+            hostname: "liveblocks.io",
+            port: ""
+        }]
     },
     output: "export",  // <=== enables static exports
     reactStrictMode: true,

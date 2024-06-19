@@ -94,8 +94,6 @@ export const Live = () => {
         setReaction((reaction) =>  reaction.filter((r ) => r.timestamp > Date.now() - 4000))
     }, 1000)
 
-    console.log(reaction);
-
     useEventListener((eventData) => {
         const event = eventData.event as ReactionEvent
 
@@ -107,8 +105,6 @@ export const Live = () => {
             }
         ]))
     })
-
-
 
     useEffect(() => {
         const onKeyUp = (e: KeyboardEvent) => {
