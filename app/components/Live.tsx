@@ -10,7 +10,11 @@ import FlyingReaction from "@/app/components/reaction/FlyingReaction";
 import useInterval from "@/hooks/useInterval";
 import {useBroadcastEvent, useEventListener} from "@/liveblocks.config";
 
-export const Live = () => {
+type Props = {
+    canvasRef: React.MutableRefObject<HTMLCanvasElement | null>
+}
+
+export const Live = ({canvasRef} : Props) => {
     const others = useOthers();
     const [{cursor}, updateMyPresence] = useMyPresence() as any
     const [reaction, setReaction] = useState<Reaction[]>([])
@@ -140,12 +144,14 @@ export const Live = () => {
     }, [updateMyPresence])
 
     return (
-        <div onPointerMove={handlePointerMove}
+        <div id="canvas"
+            onPointerMove={handlePointerMove}
              onPointerDown={handlePointerDown}
              onPointerLeave={handlePointerLeave}
              onPointerUp={handlePointerUp}
-             className="border-2 border-green-500 h-[100vh] w-full flex justify-center items-center text-center">
-            <h1 className="text-2xl text-white">Liveblock fimga clone</h1>
+             className="h-[100vh] w-full flex justify-center items-center text-center">
+
+            <canvas ref={canvasRef} />
 
             {reaction.map((r) =>
                 <FlyingReaction key={r.timestamp.toString()}
