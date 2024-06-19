@@ -9,6 +9,7 @@ import ReactionSelector from "@/app/components/reaction/ReactionSelector";
 import FlyingReaction from "@/app/components/reaction/FlyingReaction";
 import useInterval from "@/hooks/useInterval";
 import {useBroadcastEvent, useEventListener} from "@/liveblocks.config";
+import {Breadcrum} from "@/app/components/ui/breadcrum";
 
 type Props = {
     canvasRef: React.MutableRefObject<HTMLCanvasElement | null>
@@ -44,7 +45,7 @@ export const Live = ({canvasRef} : Props) => {
 
     // handlePointerDown --------------------------------------------------------
     const handlePointerDown = useCallback((event: React.PointerEvent) => {
-        event.preventDefault()
+        // event.preventDefault()
 
         const x = event.clientX - event.currentTarget.getBoundingClientRect().x
         const y = event.clientY - event.currentTarget.getBoundingClientRect().y
@@ -142,6 +143,7 @@ export const Live = ({canvasRef} : Props) => {
             window.removeEventListener("keydown", onKeyDown)
         }
     }, [updateMyPresence])
+
 
 
     return (
