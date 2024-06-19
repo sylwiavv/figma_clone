@@ -6,8 +6,11 @@ import LeftSidebar from "@/app/components/LeftSidebar";
 import RightSidebar from "@/app/components/RightSidebar";
 import {useEffect, useRef} from "react";
 import {fabric} from "fabric";
-import {handleCanvasMouseDown, handleResize, initializeFabric} from "@/lib/canvas";
-
+import {
+    handleCanvasMouseDown,
+    handleResize,
+    initializeFabric,
+} from "@/lib/canvas";
 export default function Page() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
     const fabricRef = useRef<fabric.Canvas | null>(null)
@@ -30,8 +33,6 @@ export default function Page() {
                 shapeRef,
             });
         });
-
-        console.log(canvas, "canvas");
 
 
         window.addEventListener("resize", () => {

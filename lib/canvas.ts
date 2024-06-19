@@ -13,6 +13,7 @@ import {
 } from "@/types/type";
 import { defaultNavElement } from "@/constants";
 import { createSpecificShape } from "./shapes";
+import React from "react";
 
 // initialize fabric canvas
 export const initializeFabric = ({
@@ -47,6 +48,7 @@ export const handleCanvasMouseDown = ({
 }: CanvasMouseDown) => {
   // get pointer coordinates
   const pointer = canvas.getPointer(options.e);
+  console.log(pointer, "pointer", selectedShapeRef);
 
   /**
    * get target object i.e., the object that is clicked

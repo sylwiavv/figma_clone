@@ -143,6 +143,7 @@ export const Live = ({canvasRef} : Props) => {
         }
     }, [updateMyPresence])
 
+
     return (
         <div id="canvas"
             onPointerMove={handlePointerMove}
