@@ -7,17 +7,36 @@ import RightSidebar from "@/app/components/RightSidebar";
 import {useEffect, useRef, useState} from "react";
 import {fabric} from "fabric";
 import {
-    handleCanvasMouseDown,
+    handleCanvaseMouseMove,
+    handleCanvasMouseDown, handleCanvasMouseUp,
     handleResize,
     initializeFabric,
 } from "@/lib/canvas";
 import {ActiveElement} from "@/types/type";
+import {useMutation, useStorage} from "@/liveblocks.config";
 export default function Page() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
     const fabricRef = useRef<fabric.Canvas | null>(null)
     const isDrawing = useRef(false)
     const shapeRef = useRef<fabric.Object | null>(null)
     const selectedShapeRef = useRef<string | null>(null)
+    const activeObjectRef = useRef<fabric.Object | null>(null)
+
+    // storage a history of created elements
+    const canvasObjects = useStorage((root) => root.canvasObjects)
+
+    const syncShapeInStorage = useMutation(({storage}, object) => {
+        if (!object) return
+
+        const {objectId} = object;
+
+        const shapeData = object.toJSON()
+        // najpierw konwerujemy do JSON a później przypisujemy do objId
+        shapeData.objectId = objectId
+
+        const canvasObjects = storage.get('canvasObjects')
+        canvasObjects.set(objectId, shapeData)
+    }, [])
 
     const [activeElement, setActiveElement] = useState<ActiveElement>({
         name: "",
@@ -37,6 +56,7 @@ export default function Page() {
             fabricRef,
         });
 
+        // --------------------------------------
         canvas.on("mouse:down", (options) => {
             handleCanvasMouseDown({
                 options,
@@ -44,6 +64,31 @@ export default function Page() {
                 selectedShapeRef,
                 isDrawing,
                 shapeRef,
+            });
+        });
+
+        // --------------------------------------
+        canvas.on("mouse:move", (options) => {
+            handleCanvaseMouseMove({
+                options,
+                canvas,
+                selectedShapeRef,
+                isDrawing,
+                shapeRef,
+                syncShapeInStorage
+            });
+        });
+
+        // --------------------------------------
+        canvas.on("mouse:up", (options) => {
+            handleCanvasMouseUp({
+                canvas,
+                selectedShapeRef,
+                isDrawing,
+                shapeRef,
+                syncShapeInStorage,
+                setActiveElement,
+                activeObjectRef
             });
         });
 
