@@ -48,8 +48,6 @@ export const handleCanvasMouseDown = ({
 }: CanvasMouseDown) => {
   // get pointer coordinates
   const pointer = canvas.getPointer(options.e);
-  console.log(pointer, "pointer", selectedShapeRef);
-
   /**
    * get target object i.e., the object that is clicked
    * findtarget() returns the object that is clicked
