@@ -8,9 +8,9 @@ import {useEffect, useRef, useState} from "react";
 import {fabric} from "fabric";
 import {
     handleCanvaseMouseMove,
-    handleCanvasMouseDown, handleCanvasMouseUp,
+    handleCanvasMouseDown, handleCanvasMouseUp, handleCanvasObjectModified,
     handleResize,
-    initializeFabric,
+    initializeFabric, renderCanvas,
 } from "@/lib/canvas";
 import {ActiveElement} from "@/types/type";
 import {useMutation, useStorage} from "@/liveblocks.config";
@@ -92,12 +92,27 @@ export default function Page() {
             });
         });
 
+
+        canvas.on("object:modified", (options) => {
+            handleCanvasObjectModified({
+                options,
+                syncShapeInStorage
+            })
+        })
+
         window.addEventListener("resize", () => {
             handleResize({
                 canvas: fabricRef.current,
             });
         });
         }, [])
+
+
+    useEffect(() => {
+        renderCanvas({
+            fabricRef, canvasObjects, activeObjectRef
+        })
+    }, [canvasObjects])
 
 
     return (
