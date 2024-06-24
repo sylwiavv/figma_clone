@@ -11,7 +11,7 @@ import {
     handleCanvasMouseDown,
     handleCanvasMouseUp,
     handleCanvasObjectModified,
-    handleCanvasObjectMoving,
+    handleCanvasObjectMoving, handleCanvasObjectScaling,
     handleCanvasSelectionCreated,
     handlePathCreated,
     handleResize,
@@ -208,6 +208,13 @@ export default function Page() {
             });
         });
 
+        // --------------------------------------
+        canvas.on("object:scaling", (options) => {
+            handleCanvasObjectScaling({
+                options,
+                setElementAttributes,
+            });
+        });
 
         window.addEventListener("resize", () => {
             handleResize({
