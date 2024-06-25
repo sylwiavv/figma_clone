@@ -28,10 +28,10 @@ const NewThreadCursor = ({ display }: { display: boolean }) => {
         // check if the mouse is outside the canvas
         // if so, hide the custom comment cursor
         if (
-          e.clientX < canvasRect.left ||
-          e.clientX > canvasRect.right ||
-          e.clientY < canvasRect.top ||
-          e.clientY > canvasRect.bottom
+            e.clientX < canvasRect.left ||
+            e.clientX > canvasRect.right ||
+            e.clientY < canvasRect.top ||
+            e.clientY > canvasRect.bottom
         ) {
           setCoords({
             x: DEFAULT_CURSOR_POSITION,
@@ -70,15 +70,15 @@ const NewThreadCursor = ({ display }: { display: boolean }) => {
   }
 
   return (
-    // Portal.Root is used to render a component outside of its parent component
-    <Portal.Root>
-      <div
-        className="pointer-events-none fixed left-0 top-0 h-9 w-9 cursor-grab select-none rounded-bl-full rounded-br-full rounded-tl-md rounded-tr-full bg-white shadow-2xl"
-        style={{
-          transform: `translate(${coords.x}px, ${coords.y}px)`,
-        }}
-      />
-    </Portal.Root>
+      // Portal.Root is used to render a component outside of its parent component
+      <Portal.Root>
+        <div
+            className="pointer-events-none fixed left-0 top-0 h-9 w-9 cursor-grab select-none rounded-bl-full rounded-br-full rounded-tl-md rounded-tr-full bg-white shadow-2xl"
+            style={{
+              transform: `translate(${coords.x}px, ${coords.y}px)`,
+            }}
+        />
+      </Portal.Root>
   );
 };
 

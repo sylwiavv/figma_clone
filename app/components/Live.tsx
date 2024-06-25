@@ -10,6 +10,7 @@ import FlyingReaction from "@/app/components/reaction/FlyingReaction";
 import useInterval from "@/hooks/useInterval";
 import {useBroadcastEvent, useEventListener} from "@/liveblocks.config";
 import {Breadcrum} from "@/app/components/ui/breadcrum";
+import {Comments} from "@/app/components/comments/Comments";
 
 type Props = {
     canvasRef: React.MutableRefObject<HTMLCanvasElement | null>
@@ -152,7 +153,7 @@ export const Live = ({canvasRef} : Props) => {
              onPointerDown={handlePointerDown}
              onPointerLeave={handlePointerLeave}
              onPointerUp={handlePointerUp}
-             className="h-[100vh] w-full flex justify-center items-center text-center">
+             className="relative flex h-full w-full flex-1 items-center justify-center">
 
             <canvas ref={canvasRef} />
 
@@ -175,6 +176,8 @@ export const Live = ({canvasRef} : Props) => {
             )}
 
             <LiveCursors others={others}/>
+
+            <Comments />
         </div>
     );
 }

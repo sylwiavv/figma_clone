@@ -3,6 +3,7 @@ import { Work_Sans } from "next/font/google";
 import "./globals.css";
 import { Room } from "./Room";
 import React from "react";
+import "@liveblocks/react-ui/styles.css";
 
 const workSans = Work_Sans({ subsets: ["latin"], variable: "--work-sans",   weight: ['400', '600', '700']});
 

@@ -1,10 +1,12 @@
 "use client";
 
-
+import * as Portal from '@radix-ui/react-portal';
 import {FormEvent, ReactNode, useCallback, useEffect, useRef, useState} from "react";
 import {useCreateThread} from "@liveblocks/react";
 import {useMaxZIndex} from "@/lib/useMaxZIndex";
 import {ComposerSubmitComment} from "@liveblocks/react-ui";
+import PinnedComposer from "@/app/components/comments/PinnedComposer";
+import NewThreadCursor from "@/app/components/comments/NewThreadCursor";
 import {Slot} from "@radix-ui/react-slot";
 
 type ComposerCoords = null | { x: number; y: number };
@@ -16,8 +18,8 @@ type Props = {
 export const NewThread = ({ children }: Props) => {
   // set state to track if we're placing a new comment or not
   const [creatingCommentState, setCreatingCommentState] = useState<
-    "placing" | "placed" | "complete"
-  >("complete");
+      "placing" | "placed" | "complete"
+      >("complete");
 
   /**
    * We're using the useCreateThread hook to create a new thread.
@@ -54,10 +56,10 @@ export const NewThread = ({ children }: Props) => {
       if (creatingCommentState === "placed") {
         // check if the click event is on/inside the composer
         const isClickOnComposer = ((e as any)._savedComposedPath = e
-          .composedPath()
-          .some((el: any) => {
-            return el.classList?.contains("lb-composer-editor-actions");
-          }));
+            .composedPath()
+            .some((el: any) => {
+              return el.classList?.contains("lb-composer-editor-actions");
+            }));
 
         // if click is inisde/on composer, don't do anything
         if (isClickOnComposer) {
@@ -98,8 +100,8 @@ export const NewThread = ({ children }: Props) => {
 
     return () => {
       document.documentElement.removeEventListener(
-        "pointermove",
-        handlePointerMove
+          "pointermove",
+          handlePointerMove
       );
     };
   }, []);
@@ -135,96 +137,96 @@ export const NewThread = ({ children }: Props) => {
 
     return () => {
       document.documentElement.removeEventListener(
-        "pointerdown",
-        handlePointerDown
+          "pointerdown",
+          handlePointerDown
       );
       document.documentElement.removeEventListener(
-        "contextmenu",
-        handleContextMenu
+          "contextmenu",
+          handleContextMenu
       );
     };
   }, [creatingCommentState]);
 
   // On composer submit, create thread and reset state
   const handleComposerSubmit = useCallback(
-    ({ body }: ComposerSubmitComment, event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      event.stopPropagation();
+      ({ body }: ComposerSubmitComment, event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
 
-      // Get your canvas element
-      const overlayPanel = document.querySelector("#canvas");
+        // Get your canvas element
+        const overlayPanel = document.querySelector("#canvas");
 
-      // if there's no composer coords or last pointer event, meaning the user hasn't clicked yet, don't do anything
-      if (!composerCoords || !lastPointerEvent.current || !overlayPanel) {
-        return;
-      }
+        // if there's no composer coords or last pointer event, meaning the user hasn't clicked yet, don't do anything
+        if (!composerCoords || !lastPointerEvent.current || !overlayPanel) {
+          return;
+        }
 
-      // Set coords relative to the top left of your canvas
-      const { top, left } = overlayPanel.getBoundingClientRect();
-      const x = composerCoords.x - left;
-      const y = composerCoords.y - top;
+        // Set coords relative to the top left of your canvas
+        const { top, left } = overlayPanel.getBoundingClientRect();
+        const x = composerCoords.x - left;
+        const y = composerCoords.y - top;
 
-      // create a new thread with the composer coords and cursor selectors
-      createThread({
-        body,
-        metadata: {
-          x,
-          y,
-          resolved: false,
-          zIndex: maxZIndex + 1,
-        },
-      });
+        // create a new thread with the composer coords and cursor selectors
+        createThread({
+          body,
+          metadata: {
+            x,
+            y,
+            resolved: false,
+            zIndex: maxZIndex + 1,
+          },
+        });
 
-      setComposerCoords(null);
-      setCreatingCommentState("complete");
-      setAllowUseComposer(false);
-    },
-    [createThread, composerCoords, maxZIndex]
+        setComposerCoords(null);
+        setCreatingCommentState("complete");
+        setAllowUseComposer(false);
+      },
+      [createThread, composerCoords, maxZIndex]
   );
 
   return (
-    <>
-      {/**
-       * Slot is used to wrap the children of the NewThread component
-       * to allow us to add a click event listener to the children
-       *
-       * Slot: https://www.radix-ui.com/primitives/docs/utilities/slot
-       *
-       * Disclaimer: We don't have to download this package specifically,
-       * it's already included when we install Shadcn
-       */}
-      <Slot
-        onClick={() =>
-          setCreatingCommentState(
-            creatingCommentState !== "complete" ? "complete" : "placing"
-          )
-        }
-        style={{ opacity: creatingCommentState !== "complete" ? 0.7 : 1 }}
-      >
-        {children}
-      </Slot>
-
-      {/* if composer coords exist and we're placing a comment, render the composer */}
-      {composerCoords && creatingCommentState === "placed" ? (
-        /**
-         * Portal.Root is used to render the composer outside of the NewThread component to avoid z-index issuess
+      <>
+        {/**
+         * Slot is used to wrap the children of the NewThread component
+         * to allow us to add a click event listener to the children
          *
-         * Portal.Root: https://www.radix-ui.com/primitives/docs/utilities/portal
-         */
-        <Portal.Root
-          className='absolute left-0 top-0'
-          style={{
-            pointerEvents: allowUseComposer ? "initial" : "none",
-            transform: `translate(${composerCoords.x}px, ${composerCoords.y}px)`,
-          }}
-          data-hide-cursors
+         * Slot: https://www.radix-ui.com/primitives/docs/utilities/slot
+         *
+         * Disclaimer: We don't have to download this package specifically,
+         * it's already included when we install Shadcn
+         */}
+        <Slot
+            onClick={() =>
+                setCreatingCommentState(
+                    creatingCommentState !== "complete" ? "complete" : "placing"
+                )
+            }
+            style={{ opacity: creatingCommentState !== "complete" ? 0.7 : 1 }}
         >
-          <PinnedComposer onComposerSubmit={handleComposerSubmit} />
-        </Portal.Root>
-      ) : null}
+          {children}
+        </Slot>
 
-      {/* Show the customizing cursor when placing a comment. The one with comment shape */}
-      {/*<NewThreadCursor display={creatingCommentState === "placing"} />*/}
-    </>
+        {/* if composer coords exist and we're placing a comment, render the composer */}
+        {composerCoords && creatingCommentState === "placed" ? (
+            /**
+             * Portal.Root is used to render the composer outside of the NewThread component to avoid z-index issuess
+             *
+             * Portal.Root: https://www.radix-ui.com/primitives/docs/utilities/portal
+             */
+            <Portal.Root
+                className='absolute left-0 top-0'
+                style={{
+                  pointerEvents: allowUseComposer ? "initial" : "none",
+                  transform: `translate(${composerCoords.x}px, ${composerCoords.y}px)`,
+                }}
+                data-hide-cursors
+            >
+              <PinnedComposer onComposerSubmit={handleComposerSubmit} />
+            </Portal.Root>
+        ) : null}
+
+        {/* Show the customizing cursor when placing a comment. The one with comment shape */}
+        <NewThreadCursor display={creatingCommentState === "placing"} />
+      </>
   );
 };
