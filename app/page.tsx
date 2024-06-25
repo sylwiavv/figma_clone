@@ -1,6 +1,6 @@
 'use client';
 
-import {Live} from "@/app/components/Live";
+import Live from "@/app/components/Live";
 import Navbar from "@/app/components/Navbar";
 import LeftSidebar from "@/app/components/LeftSidebar";
 import RightSidebar from "@/app/components/RightSidebar";
@@ -268,7 +268,7 @@ export default function Page() {
 
             <section className='flex h-full flex-row'>
                 <LeftSidebar allShapes={Array.from(canvasObjects)}/>
-                <Live canvasRef={canvasRef}/>
+                <Live canvasRef={canvasRef} undo={undo} redo={redo} />
 
                 <RightSidebar
                     elementAttributes={elementAttributes}
