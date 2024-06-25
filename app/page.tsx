@@ -216,6 +216,14 @@ export default function Page() {
             });
         });
 
+        // --------------------------------------
+        canvas.on("path:created", (options) => {
+            handlePathCreated({
+                options,
+                syncShapeInStorage,
+            });
+        });
+
         window.addEventListener("resize", () => {
             handleResize({
                 canvas: fabricRef.current,

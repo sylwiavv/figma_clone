@@ -1,11 +1,12 @@
 import React from "react";
+import {Reaction} from "@/types/type";
 
 export const ReactionButton = ({
                             reaction,
                             onSelect,
                         }: {
-    reaction: string;
-    onSelect: (reaction: string) => void;
+    reaction: Reaction;
+    onSelect: (reaction: Reaction) => void;
 }) => {
     return (
         <button

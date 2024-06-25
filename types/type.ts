@@ -2,6 +2,7 @@ import { BaseUserMeta, User } from "@liveblocks/client";
 import { Gradient, Pattern } from "fabric/fabric-impl";
 import React from "react";
 import {fabric} from "fabric";
+import {Json, JsonObject} from "@liveblocks/react";
 
 export enum CursorMode {
   Hidden,
@@ -120,12 +121,6 @@ export type ShapesMenuProps = {
   imageInputRef: any;
 };
 
-export type Presence = any;
-
-export type LiveCursorProps = {
-  others: readonly User<Presence, BaseUserMeta>[];
-};
-
 export type CanvasMouseDown = {
   options: fabric.IEvent;
   canvas: fabric.Canvas;
@@ -181,7 +176,7 @@ export type RenderCanvas = {
 };
 
 export type CursorChatProps = {
-  cursor: { x: number; y: number };
+  cursor: string | number | Json[] | JsonObject | boolean;
   cursorState: CursorState;
   setCursorState: (cursorState: CursorState) => void;
   updateMyPresence: (

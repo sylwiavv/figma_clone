@@ -3,7 +3,7 @@
 import {LiveCursors} from "@/app/components/cursror/LiveCursors";
 import React, {useCallback, useEffect, useState} from "react";
 import {CursorChat} from "@/app/components/cursror/CursorChat";
-import {CursorMode, CursorState, Reaction, ReactionEvent} from "@/types/type";
+import {CursorMode, CursorState, Reaction} from "@/types/type";
 import {useMyPresence, useOthers,} from "@liveblocks/react";
 import ReactionSelector from "@/app/components/reaction/ReactionSelector";
 import FlyingReaction from "@/app/components/reaction/FlyingReaction";
@@ -27,8 +27,7 @@ type Props = {
 }
 
 const Live = ({ canvasRef, undo, redo }: Props) => {
-    const others = useOthers();
-    const [{cursor}, updateMyPresence] = useMyPresence() as any
+    const [{cursor}, updateMyPresence] = useMyPresence()
     const [reactions, setReaction] = useState<Reaction[]>([])
 
     const [cursorState, setCursorState] = useState<CursorState>({mode: CursorMode.Hidden})
@@ -139,7 +138,7 @@ const Live = ({ canvasRef, undo, redo }: Props) => {
     }, 1000)
 
     useEventListener((eventData) => {
-        const event = eventData.event as ReactionEvent
+        const event = eventData.event
 
         setReaction((reactions) => reactions.concat([
             {
@@ -231,7 +230,7 @@ const Live = ({ canvasRef, undo, redo }: Props) => {
                 )}
 
                 {/* Show the live cursors of other users */}
-                <LiveCursors others={others} />
+                <LiveCursors />
 
                 {/* Show the comments */}
                 <Comments />

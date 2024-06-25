@@ -1,8 +1,8 @@
 import React from "react";
 import {ReactionButton} from "@/app/components/reaction/ReactionButton";
-
+import {Reaction} from "@/types/type";
 type Props = {
-    setReaction: (reaction: string) => void;
+    setReaction: (reaction: Reaction[]) => void;
 };
 
 export default function ReactionSelector({setReaction}: Props) {
