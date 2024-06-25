@@ -11,8 +11,7 @@ export const ReactionButton = ({
     return (
         <button
             className="transform select-none p-2 text-xl transition-transform hover:scale-150 focus:scale-150 focus:outline-none"
-            onPointerDown={() => onSelect(reaction)}
-        >
+            onPointerDown={() => onSelect(reaction)}>
             {reaction}
         </button>
     );
